@@ -1,0 +1,36 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+mainClassName = "StartUp"
+
+repositories {
+    jcenter()
+	mavenCentral()
+}
+
+javadoc {
+	source = sourceSets.main.allJava
+	classpath = configurations.compile
+}
+
+dependencies {
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'javazoom:jlayer:1.0.1'
+    compile 'org.apache.commons:commons-math3:3.6.1'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-swing:3.5.0'
+}
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+jar {
+    baseName = 'SteganographyTool'
+ 	manifest {
+        attributes 	'Main-Class': mainClassName,
+        			'Class-Path': configurations.runtime.files.collect {"$it.name"}.join(' ')
+    }
+}
